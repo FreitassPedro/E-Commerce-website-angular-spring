@@ -3,7 +3,7 @@ import { SalesPerson } from './sales-person';
 
 @Component({
   selector: 'app-sales-person-list',
-  templateUrl: './sales-person-list.component.html',
+  templateUrl: './sales-person-list-bootstrap.component.html',
   styleUrl: './sales-person-list.component.css'
 })
 export class SalesPersonListComponent implements OnInit {
@@ -16,7 +16,7 @@ export class SalesPersonListComponent implements OnInit {
     new SalesPerson("Mai", "Troung", "mai@email.com", 60000)
   ];
 
-  
+
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
