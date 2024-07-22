@@ -16,6 +16,7 @@ import { CartDetailsComponent } from './components/cart-details/cart-details.com
 
 const routes: Routes = [
   // Se o Path bater, irá jogar para o component
+  { path: 'cart-details', component: CartDetailsComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'products/:id', component: ProductDetailsComponent },
   { path: 'category/:id', component: ProductListComponent },
