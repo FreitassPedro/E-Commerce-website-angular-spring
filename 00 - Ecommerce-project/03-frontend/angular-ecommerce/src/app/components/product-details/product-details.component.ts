@@ -11,7 +11,6 @@ import { CartItem } from '../../common/cart-item';
   styleUrl: './product-details.component.css',
 })
 export class ProductDetailsComponent implements OnInit {
-
   product!: Product;
 
   constructor(
@@ -39,6 +38,5 @@ export class ProductDetailsComponent implements OnInit {
     const theCartItem = new CartItem(this.product);
 
     this.cartService.addToCart(theCartItem);
-
   }
 }

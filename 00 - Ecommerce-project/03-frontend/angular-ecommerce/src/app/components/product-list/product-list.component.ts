@@ -9,10 +9,9 @@ import { CartItem } from '../../common/cart-item';
   selector: 'app-product-list',
   templateUrl: './product-list-grid.component.html',
   //templateUrl: './product-list-table.component.html',
-  styleUrl: './product-list.component.css'
+  styleUrl: './product-list.component.css',
 })
 export class ProductListComponent implements OnInit {
-
   products: Product[] = [];
   currentCategoryId: number = 1;
   previousCategoryId: number = 1;
@@ -22,22 +21,23 @@ export class ProductListComponent implements OnInit {
   thePageSize: number = 5;
   theTotalElements: number = 0;
 
-  previousKeyWord: string = "";
+  previousKeyWord: string = '';
 
-  constructor(private productService: ProductService,
-        private cartService: CartService,
-        private route: ActivatedRoute) {
-        }
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe( () => {
-    this.listProducts();
+    this.route.paramMap.subscribe(() => {
+      this.listProducts();
     });
   }
 
   listProducts() {
     this.searchMode = this.route.snapshot.paramMap.has('keyword');
-    if(this.searchMode) {
+    if (this.searchMode) {
       this.handleSearchProducts();
     } else {
       this.handleListProducts();
@@ -54,13 +54,15 @@ export class ProductListComponent implements OnInit {
     this.previousKeyWord = theKeyword;
 
     // now search for the products using keyword
-    this.productService.searchProductsPaginate(this.thePageNumber - 1, this.thePageSize, theKeyword)
-                .subscribe(this.processResult()
-         );
-
+    this.productService
+      .searchProductsPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        theKeyword
+      )
+      .subscribe(this.processResult());
   }
   handleListProducts() {
-
     // check if 'id' parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
     if (hasCategoryId) {
@@ -82,14 +84,18 @@ export class ProductListComponent implements OnInit {
       this.thePageNumber = 1;
     }
     this.previousCategoryId = this.currentCategoryId;
-    console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
+    console.log(
+      `currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`
+    );
 
     // now get the products for the given category id
-    this.productService.getProductListPaginate(this.thePageNumber - 1,
-                                              this.thePageSize,
-                                              this.currentCategoryId
-          ).subscribe(this.processResult());
-
+    this.productService
+      .getProductListPaginate(
+        this.thePageNumber - 1,
+        this.thePageSize,
+        this.currentCategoryId
+      )
+      .subscribe(this.processResult());
   }
 
   updatePageSize(pageSize: string) {
@@ -114,5 +120,4 @@ export class ProductListComponent implements OnInit {
 
     this.cartService.addToCart(theCartItem);
   }
-
 }

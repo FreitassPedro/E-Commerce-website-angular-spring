@@ -1,4 +1,4 @@
-import { Product } from "./product";
+import { Product } from './product';
 
 export class CartItem {
   id: string;
@@ -9,11 +9,11 @@ export class CartItem {
   quantity: number;
 
   constructor(product: Product) {
-      this.id = product.id;
-      this.name = product.name;
-      this.imageUrl = product.imageUrl;
-      this.unitPrice = product.unitPrice;
+    this.id = product.id;
+    this.name = product.name;
+    this.imageUrl = product.imageUrl;
+    this.unitPrice = product.unitPrice;
 
-      this.quantity = 1;
+    this.quantity = 1;
   }
 }
