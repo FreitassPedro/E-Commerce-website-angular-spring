@@ -21,7 +21,9 @@ export class CartService {
     if (this.cartItems.length > 0) {
       // find the item in the cart based on the id
 
-      existingCartItem = this.cartItems.find( tempCartItem => tempCartItem.id === theCartItem.id);
+      existingCartItem = this.cartItems.find(
+        (tempCartItem) => tempCartItem.id === theCartItem.id
+      );
 
       // check if we found it
       alreadyExistsInCart = existingCartItem != undefined;
@@ -35,6 +37,26 @@ export class CartService {
 
     //compute cart total price and quantity
     this.computeCartTotals();
+  }
+
+  decrementQuantity(theCartItem: CartItem) {
+    theCartItem.quantity--;
+
+    if (theCartItem.quantity === 0) {
+      this.remove(theCartItem);
+    }
+    
+    this.computeCartTotals();
+  }
+
+  remove(theCartItem: CartItem) {
+    const itemIndex = this.cartItems.findIndex(
+      (tempCartItem) => tempCartItem.id === theCartItem.id
+    );
+
+    if (itemIndex > -1) {
+      this.cartItems.splice(itemIndex, 1);
+    }
   }
 
   computeCartTotals() {
