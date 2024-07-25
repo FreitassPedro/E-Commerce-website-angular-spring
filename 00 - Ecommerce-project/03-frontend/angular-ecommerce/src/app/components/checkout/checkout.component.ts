@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Country } from '../../common/country';
 import { State } from '../../common/state';
+import { OwnValidators } from '../../validators/own-validators';
 
 @Component({
   selector: 'app-checkout',
@@ -31,12 +32,9 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-        lastName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-        email: new FormControl('',
-            [Validators.required,
-              Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]
-            )
+        firstName: new FormControl('', [Validators.required, Validators.minLength(2), OwnValidators.notOnlyWhitespace]),
+        lastName: new FormControl('', [Validators.required, Validators.minLength(2), OwnValidators.notOnlyWhitespace]),
+        email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
       shippingAddress: this.formBuilder.group({
         street: [''],
@@ -98,7 +96,7 @@ export class CheckoutComponent implements OnInit {
     console.log('Hadling the submit button');
 
     if (this.checkoutFormGroup.invalid) this.checkoutFormGroup.markAllAsTouched();
-    
+
     console.log(this.checkoutFormGroup.get('customer')?.value);
     console.log(
       'Email adress is ' + this.checkoutFormGroup.get('customer')?.value.email
