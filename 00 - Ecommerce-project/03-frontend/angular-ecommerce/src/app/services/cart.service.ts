@@ -1,6 +1,6 @@
 import { CartItem } from './../common/cart-item';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +8,15 @@ import { Subject } from 'rxjs';
 export class CartService {
   cartItems: CartItem[] = [];
 
-  totalPrice: Subject<number> = new Subject<number>();
-  totalQuantity: Subject<number> = new Subject<number>();
+  //
+  // Subject is a subclass of Observable
+  // We can Use Subject to publish events in our code
+  // the event will be sent to all of the subscribers
+  //
+  // ReplaySubject keep a buffer of previous events and to new subscribers
+  // BehaviorSubject are useful for representing "values over time" (most recent value); summarise
+  totalPrice: Subject<number> = new BehaviorSubject<number>(0);
+  totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   constructor() {}
 
@@ -45,7 +52,7 @@ export class CartService {
     if (theCartItem.quantity === 0) {
       this.remove(theCartItem);
     }
-    
+
     this.computeCartTotals();
   }
 

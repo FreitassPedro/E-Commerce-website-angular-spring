@@ -1,3 +1,4 @@
+import { CartService } from './../../services/cart.service';
 import { OwnFormServiceService } from './../../services/own-form-service.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
@@ -26,15 +27,17 @@ export class CheckoutComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private ownFormService: OwnFormServiceService
+    private ownFormService: OwnFormServiceService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
+    this.reviewCartDetails();
+
     const defaultValidators = [Validators.required, Validators.minLength(2), OwnValidators.notOnlyWhitespace];
     const emailValidator = [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')];
     const cardNumberValidator = [Validators.required, Validators.pattern('[0-9]{16}')];
     const securityCodeValidator = [Validators.required, Validators.pattern('[0-9]{3}')];
-
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -119,6 +122,17 @@ export class CheckoutComponent implements OnInit {
   get creditCardNumber() { return this.checkoutFormGroup.get('creditCard.cardNumber')}
 
 
+  reviewCartDetails() {
+    //subscribe to cartService.totalQuantity and .totalPrice
+
+    this.cartService.totalQuantity.subscribe(
+      totalQuantity => this.totalQuantity = totalQuantity
+    );
+
+    this.cartService.totalPrice.subscribe(
+      totalPrice => this.totalPrice = totalPrice
+    );
+  }
   addressFormGroup(defaultValidators: ValidatorFn[]) {
     return this.formBuilder.group({
       street: new FormControl('', defaultValidators),
